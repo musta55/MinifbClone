@@ -22,6 +22,9 @@ export const appRoutes: Routes = [
         path: 'posts', component: PostsComponent,canActivate:[AuthGuard]
     },
     {
+        path: 'story', component: PostsComponent,canActivate:[AuthGuard]
+    },
+    {
         path: '', redirectTo: '/login', pathMatch: 'full'
     }
 ];

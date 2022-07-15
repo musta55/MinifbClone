@@ -5,8 +5,16 @@
          
           <h2 class="page-header"> {{userName}}</h2>
           <input type="text"  [(ngModel)]="Posts.post_name" name="post_name" class="form-control" placeholder="What's on your mind? "required />
-         
-          <div >
+
+          <!-- story r template -->
+    
+          <input type="file" id="storyUpload" accept="image/*" (change)="onFileSelected($event)" #file>
+          <button class="dot" (click)="file.click()">
+            <h5 style="color:#2e4b88;">Add Story</h5>
+          </button>
+           <div >
+
+            
             <!-- <textarea placeholder="What's on your mind"  [(ngModel)]="postName" required
                 id="postbox">
             </textarea> -->

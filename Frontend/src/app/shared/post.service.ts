@@ -16,6 +16,15 @@ export class Post {
 export class PostService {
 
   endPoint = 'http://localhost:3000';
+  allStatus: any;
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+  }); 
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -40,6 +49,20 @@ export class PostService {
       catchError(this.httpError)
     )
   }  
+
+
+  //Story Part
+  // postStory(story: any): Observable<any>{
+  //   return this.httpClient.post<Post>(this.endPoint + '/api/story', JSON.stringify(story), this.httpHeader)
+  //   .pipe(
+  //     retry(1),
+  //     catchError(this.httpError)
+  //   )
+  // }
+
+  postStory(story: any): Observable<any>{
+    return this.httpClient.post(this.endPoint + '/api/story', story, this.httpHeader);
+  }
 
   // deleteContact(_id: any){
   //   console.log('Contact should be deleted');

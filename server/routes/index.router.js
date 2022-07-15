@@ -18,7 +18,12 @@ router.get('/posts', ctrlPost.GetPosts);
 
 // Add Post
 router.post('/post', ctrlPost.CreatePost);
+
+
+// Add Story
+router.post('/story', ctrlPost.CreateStory);
 module.exports = router;
+
 
 
 
