@@ -16,8 +16,8 @@ export class PostsComponent implements OnInit {
   Posts: any = [];
   userName: string = "";
 
-  allStatus:any;
-
+  allStatus: any;
+  allStory: any;
   updatedDate: any;
 
 
@@ -35,7 +35,10 @@ export class PostsComponent implements OnInit {
     story: '',
     time: new Date()
   }
-
+  fetchedStories: any;
+  minioHost: string="127.0.0.1";
+  port: string="9000";
+  bucket: string="minifb";
 
 
   constructor(private postService: PostService, private userService: UserService, private router: Router) { }
@@ -54,7 +57,8 @@ export class PostsComponent implements OnInit {
     );
 
     //Fetch Post
-    this.fetchPosts()
+    this.fetchPosts();
+    this.fetchStory();
   }
 
   addPost() {
@@ -62,70 +66,69 @@ export class PostsComponent implements OnInit {
       first_name: this.userDetails.fullName,
       post_name: this.Posts.post_name
     }
-    console.log("Add post er moddhe user details: "+this.userDetails);
+    console.log("Add post er moddhe user details: " + this.userDetails);
     this.postService.addPost(newPost)
       .subscribe(post => {
         this.Posts.push(post);
         this.fetchPosts();
-       
+
       })
   }
+
   fetchPosts() {
     return this.postService.getPosts().subscribe((data: {}) => {
-     
+
       this.Posts = data;
       const filtered = this.Posts.filter((post) => {
         return post.first_name != this.userDetails.fullName;
       });
       this.Posts = filtered;
       const slicedArray = this.Posts.slice(0, 10);
-      this.Posts=slicedArray;
-      console.log(this.Posts)
+      this.Posts = slicedArray;
+    //  console.log(this.Posts)
     })
   }
+
+  fetchStory() {
+ this.postService.getStories().subscribe((data) =>{
+      this.allStory = data.body;
+      this.fetchedStories = this.allStory;
+      for(let i=0;i<this.fetchedStories.length;i++){
+        this.fetchedStories[i].storyUUID = "http://"+this.minioHost+":"+this.port+"/"+this.bucket+"/"+this.fetchedStories[i].storyUUID;
+        console.log(this.fetchedStories[i].storyUUID);
+      }
+    });
   
+  }
+
+  onFileSelected(event: any) {
+
+    this.file = event.target.files[0];
+
+    let reader = new FileReader();
+
+    if (this.file) {
+
+      const formData = new FormData();
+      formData.append('files', this.file, this.file.name);
+      formData.append('name', this.userName);
+
+
+      this.postService.postStory(formData).subscribe((res) => {
+        if (res) {
+          console.log('Story Done');
+        }
+          this.fetchStory();
+      })
+    }
+  
+  }
+
 
   onLogout() {
     this.userService.deleteToken();
     this.router.navigate(['/login']);
   }
-  // remove(_id: any) {
-  //   this.postService.deletePost(_id).subscribe(res => {
-  //     this.fetchUsers();
-  //   })
-  // }
 
-
-
-  onFileSelected(event:any) {
-
-    this.file = event.target.files[0];
-    
-    let reader = new FileReader();
-
-    if(this.file){
-      reader.readAsDataURL(this.file);
-      reader.onload = (_event) => {
-			let storyData = reader.result;
-      
-      if(storyData){
-        this.newStory.story = storyData;
-        this.uploadedImage = storyData;
-        console.log('frontend')
-        //this.toBase64(storyData);
-      }
-      
-		}
-    }
-    this.newStory.name = this.userName;
-    this.newStory.time = new Date();
-
-    console.log( this.userName)
-    this.postService.postStory(this.newStory).subscribe((res)=>{
-      if(res){
-        console.log('Story Done in frontend');
-      }
-    })
-  }
 
 }

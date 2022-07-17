@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { story } from './story';
 
 export class Post {
   _id: string="";
@@ -24,6 +25,12 @@ export class PostService {
     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
   }); 
+
+  storyHeader = new HttpHeaders({
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+  });
 
 
   constructor(private httpClient: HttpClient) { }
@@ -61,19 +68,15 @@ export class PostService {
   // }
 
   postStory(story: any): Observable<any>{
-    return this.httpClient.post(this.endPoint + '/api/story', story, this.httpHeader);
+    return this.httpClient.post(this.endPoint + '/api/story', story, {headers : this.storyHeader});
   }
 
-  // deleteContact(_id: any){
-  //   console.log('Contact should be deleted');
-  //   console.log(this.endPoint + '/api/contact/' + _id);
-  //   return this.httpClient.delete<Post>(this.endPoint + '/api/contact/' + _id, this.httpHeader)
-  //   .pipe(
-  //     retry(1),
-  //     catchError(this.httpError)
-  //   )
-  // }
+  
 
+  getStories(){
+    return this.httpClient.get<story>(this.endPoint + '/api/story',{headers : this.headers, observe: "response"});
+  }
+ 
   httpError(error: { error: { message: string; }; status: any; message: any; }) {
     let msg = '';
     if(error.error instanceof ErrorEvent) {
@@ -86,5 +89,7 @@ export class PostService {
     console.log(msg);
     return throwError(msg);
   }
+
+
 
 }
