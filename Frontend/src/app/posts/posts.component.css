@@ -132,9 +132,9 @@ h2{
     margin-top: 10%;
 }
 
-.posts{
+/* .posts{
     padding: 25px 25%;
-}
+} */
 
 .single-post{
     margin-bottom: 20px;
@@ -230,7 +230,7 @@ h2{
 }
  
 .stories::-webkit-scrollbar-thumb {
-    background-color: #939cb2f1;
+    background-color: #538cd8f1;
     border-radius: 100px;
 }
 
@@ -238,6 +238,7 @@ h2{
     height: 150px;
     width: 900px;
     margin: 30px;
+    background-color: #646974f1;
 }
 
 .form-group{
