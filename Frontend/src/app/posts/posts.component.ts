@@ -49,16 +49,18 @@ export class PostsComponent implements OnInit {
       res => {
         this.userDetails = res['user'];
         this.userName = this.userDetails.fullName;
+        this.fetchPosts();
+        this.fetchStory();
       },
       err => {
         console.log(err);
 
       }
+
     );
 
     //Fetch Post
-    this.fetchPosts();
-    this.fetchStory();
+   
   }
 
   addPost() {
@@ -66,7 +68,6 @@ export class PostsComponent implements OnInit {
       first_name: this.userDetails.fullName,
       post_name: this.Posts.post_name
     }
-    console.log("Add post er moddhe user details: " + this.userDetails);
     this.postService.addPost(newPost)
       .subscribe(post => {
         this.Posts.push(post);
@@ -93,9 +94,19 @@ export class PostsComponent implements OnInit {
  this.postService.getStories().subscribe((data) =>{
       this.allStory = data.body;
       this.fetchedStories = this.allStory;
+
+
+      const filtered = this.fetchedStories.filter((story) => {
+        return story.name != this.userDetails.fullName;
+      });
+      this.fetchedStories = filtered;
+      const slicedArray = this.fetchedStories.slice(0, 10);
+      this.fetchedStories = slicedArray;
+
+
       for(let i=0;i<this.fetchedStories.length;i++){
         this.fetchedStories[i].storyUUID = "http://"+this.minioHost+":"+this.port+"/"+this.bucket+"/"+this.fetchedStories[i].storyUUID;
-        console.log(this.fetchedStories[i].storyUUID);
+        console.log(this.fetchedStories[i].name);
       }
     });
   
@@ -104,9 +115,6 @@ export class PostsComponent implements OnInit {
   onFileSelected(event: any) {
 
     this.file = event.target.files[0];
-
-    let reader = new FileReader();
-
     if (this.file) {
 
       const formData = new FormData();
