@@ -58,15 +58,6 @@ export class PostService {
   }
 
 
-  //Story Part
-  // postStory(story: any): Observable<any>{
-  //   return this.httpClient.post<Post>(this.endPoint + '/api/story', JSON.stringify(story), this.httpHeader)
-  //   .pipe(
-  //     retry(1),
-  //     catchError(this.httpError)
-  //   )
-  // }
-
   postStory(story: any): Observable<any> {
     return this.httpClient.post(this.endPoint + '/api/story', story, { headers: this.storyHeader });
   }
