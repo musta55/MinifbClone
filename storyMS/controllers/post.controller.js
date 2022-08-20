@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 // Get story using minIO
 
-module.exports.CreateStory = (async (req, res) => {
+module.exports.CreateStory = (async (req, res) => { 
 
     const minioClient = minio();
 
