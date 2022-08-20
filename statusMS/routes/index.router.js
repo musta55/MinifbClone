@@ -8,7 +8,7 @@ const jwtHelper = require('../config/jwtHelper');
 //Post
 
 //Retrieve Post
-router.get('/posts', ctrlPost.GetPosts);
+router.get('/post', ctrlPost.GetPosts);
 
 // Add Post
 router.post('/post', ctrlPost.CreatePost);

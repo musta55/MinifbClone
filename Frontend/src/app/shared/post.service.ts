@@ -16,7 +16,8 @@ export class Post {
 
 export class PostService {
 
-  endPoint = 'http://localhost:3000';
+  endPointPost = 'http://localhost:9001/post';
+  endPointStory = 'http://localhost:9001/story';
   allStatus: any;
 
   headers = new HttpHeaders({
@@ -42,7 +43,12 @@ export class PostService {
   }
 
   getPosts(): Observable<Post> {
-    return this.httpClient.get<Post>(this.endPoint + '/api/posts')
+    // return this.httpClient.get<Post>(this.endPoint + '/api/posts')
+    //   .pipe(
+    //     retry(1),
+    //     catchError(this.httpError)
+    //   )
+    return this.httpClient.get<Post>(this.endPointPost + '')
       .pipe(
         retry(1),
         catchError(this.httpError)
@@ -50,7 +56,7 @@ export class PostService {
   }
 
   addPost(post: any): Observable<Post> {
-    return this.httpClient.post<Post>(this.endPoint + '/api/post', JSON.stringify(post), this.httpHeader)
+    return this.httpClient.post<Post>(this.endPointPost + '', JSON.stringify(post), this.httpHeader)
       .pipe(
         retry(1),
         catchError(this.httpError)
@@ -59,13 +65,13 @@ export class PostService {
 
 
   postStory(story: any): Observable<any> {
-    return this.httpClient.post(this.endPoint + '/api/story', story, { headers: this.storyHeader });
+    return this.httpClient.post(this.endPointStory + '', story, { headers: this.storyHeader });
   }
 
 
 
   getStories() {
-    return this.httpClient.get<story>(this.endPoint + '/api/story', { headers: this.headers, observe: "response" });
+    return this.httpClient.get<story>(this.endPointStory + '', { headers: this.headers, observe: "response" });
   }
 
   httpError(error: { error: { message: string; }; status: any; message: any; }) {
