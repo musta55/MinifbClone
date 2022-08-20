@@ -14,19 +14,19 @@ module.exports.CreateStory = (async (req, res) => {
     const filePath="/home/mustahid/Distributed System/MinifbClone/storyMS/image/raze.jpg";
     var uuidName = crypto.randomUUID();
     console.log(JSON.stringify(req.file))
-    // minioClient.fPutObject('minifb', uuidName, req.file.path, function (err, objInfo) {
-
-    //     if (err) {
-    //         return console.log(err)
-    //     }
-    // });
-
-    minioClient.fPutObject('minifb', uuidName, filePath, function (err, objInfo) {
+    minioClient.fPutObject('minifb', uuidName, req.file.path, function (err, objInfo) {
 
         if (err) {
             return console.log(err)
         }
     });
+
+    // minioClient.fPutObject('minifb', uuidName, filePath, function (err, objInfo) {
+
+    //     if (err) {
+    //         return console.log(err)
+    //     }
+    // });
 
 
     //Create a new story
