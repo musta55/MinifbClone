@@ -27,4 +27,7 @@ router.post('/story', upload.single("files"), ctrlPost.CreateStory);
 
 //Get story
 router.get('/story', ctrlPost.getStory);
+router.get('/story/:id', ctrlPost.getImage);
+
+// router.get('/image',ctrlPost.getImage);
 module.exports = router;

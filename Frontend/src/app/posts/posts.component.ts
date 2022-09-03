@@ -36,7 +36,7 @@ export class PostsComponent implements OnInit {
     time: new Date()
   }
   fetchedStories: any;
-  minioHost: string="127.0.0.1";
+  minioHost: string="storyobjectdb";
   port: string="9000";
   bucket: string="minifb";
 
@@ -91,7 +91,7 @@ export class PostsComponent implements OnInit {
   }
 
   fetchStory() {
- this.postService.getStories().subscribe((data) =>{
+      this.postService.getStories().subscribe((data) =>{
       this.allStory = data.body;
       this.fetchedStories = this.allStory;
 
@@ -105,8 +105,12 @@ export class PostsComponent implements OnInit {
 
 
       for(let i=0;i<this.fetchedStories.length;i++){
-        this.fetchedStories[i].storyUUID = "http://"+this.minioHost+":"+this.port+"/"+this.bucket+"/"+this.fetchedStories[i].storyUUID;
-        console.log(this.fetchedStories[i].name);
+        this.fetchedStories[i].storyUUID = "http://localhost:9001/story/" + this.fetchedStories[i].storyUUID;
+     //   this.fetchedStories[i].storyUUID = "http://localhost:9001/story/";
+
+        console.log(this.fetchedStories[i]);
+        console.log("Eta frontend er story part");
+
       }
     });
   

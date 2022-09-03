@@ -12,7 +12,7 @@ services:
       - status-service
       - story-service
   db-account:
-    image: mongo:4.2
+    image: mongo:4.0-xenial
     ports:
       - 27020:27017
     volumes:
@@ -22,7 +22,7 @@ services:
     #   MONGO_INITDB_ROOT_PASSWORD: password
     #   MONGO_INITDB_ROOT_DATABASE: root-db
   db-status:
-    image: mongo:4.2
+    image: mongo:4.0-xenial
     ports:
       - 27018:27017
     volumes:
@@ -32,7 +32,7 @@ services:
     #   MONGO_INITDB_ROOT_PASSWORD: password
     #   MONGO_INITDB_ROOT_DATABASE: root-db
   db-story:
-    image: mongo:4.2
+    image: mongo:4.0-xenial
     ports:
       - 27019:27017
     volumes:
@@ -51,29 +51,29 @@ services:
 
   storyobjectdb:
     image: minio/minio
-    ports:
-      - "9000:9000"
+    # ports:
+    #   - "9000:9000"
     volumes:
       - ./test/.minio/data:/export
       - ./test/.minio/config:/root/.minio
     environment:
-      - "MINIO_ACCESS_KEY=2ZzQptFVVYFONjgf"
-      - "MINIO_SECRET_KEY=cpcpOT8zq813wumygPD4q5nVZEDcMUkt"
-    command: server /export
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server --address 0.0.0.0:9000 /data
 
-  createbuckets:
-    image: minio/mc
-    depends_on:
-      - storyobjectdb
-    entrypoint: >
-      /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 2ZzQptFVVYFONjgf cpcpOT8zq813wumygPD4q5nVZEDcMUkt;
-      /usr/bin/mc rm -r --force myminio/storybucket;
-      /usr/bin/mc mb myminio/storybucket;
-       /usr/bin/mc policy set public myminio/storybucket;
-      /usr/bin/mc policy download myminio/storybucket;
-      exit 0;
-      "
+  # createbuckets:
+  #   image: minio/mc
+  #   depends_on:
+  #     - storyobjectdb
+  #   entrypoint: >
+  #     /bin/sh -c "
+  #     /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin;
+  #     /usr/bin/mc rm -r --force myminio/minifb;
+  #     /usr/bin/mc mb myminio/minifb;
+  #      /usr/bin/mc policy set public myminio/minifb;
+  #     /usr/bin/mc policy download myminio/minifb;
+  #     exit 0;
+  #     "
  
   account-service:
     build: ./userMS
