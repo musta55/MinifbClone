@@ -1,7 +1,7 @@
 {
     "development": {
         "PORT": 3001,
-        "MONGODB_URI": "mongodb://localhost:27017/statusDB",
+        "MONGODB_URI": "mongodb://db-status:27017/status-service",
         "JWT_SECRET": "SECRET#123",
         "JWT_EXP": "10m"
     },
