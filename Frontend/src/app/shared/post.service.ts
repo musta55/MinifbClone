@@ -16,8 +16,8 @@ export class Post {
 
 export class PostService {
 
-  endPointPost = 'http://localhost:9001/post';
-  endPointStory = 'http://localhost:9001/story';
+  endPointPost = 'http://localhost:1000/status';
+  endPointStory = 'http://localhost:1000/story';
   allStatus: any;
 
   headers = new HttpHeaders({

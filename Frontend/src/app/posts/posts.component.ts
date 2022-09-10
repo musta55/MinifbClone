@@ -105,7 +105,8 @@ export class PostsComponent implements OnInit {
 
 
       for(let i=0;i<this.fetchedStories.length;i++){
-        this.fetchedStories[i].storyUUID = "http://localhost:9001/story/" + this.fetchedStories[i].storyUUID;
+        this.fetchedStories[i].storyUUID = "http://localhost:1000/story/" + this.fetchedStories[i].storyUUID;
+        console.log(this.fetchedStories[i].storyUUID);
      //   this.fetchedStories[i].storyUUID = "http://localhost:9001/story/";
 
         console.log(this.fetchedStories[i]);

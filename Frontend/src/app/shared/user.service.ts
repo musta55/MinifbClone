@@ -19,17 +19,17 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   //HttpMethods
-
+  endPointUser= 'http://localhost:1000/authenticate';
   postUser(user: User){
-    return this.http.post(environment.apiBaseUrl+'/register',user,this.noAuthHeader);
+    return this.http.post(this.endPointUser+'/register',user,this.noAuthHeader);
   }
 
   login(authCredentials) {
-    return this.http.post(environment.apiBaseUrl + '/login', authCredentials,this.noAuthHeader);
+    return this.http.post(this.endPointUser+ '/login', authCredentials,this.noAuthHeader);
   }
 
   getUserProfile() {
-    return this.http.get(environment.apiBaseUrl + '/userProfile');
+    return this.http.get(this.endPointUser + '/userProfile');
   }
 
 
