@@ -1,7 +1,8 @@
 version: "3"
 services:
   nginx:
-    image: nginx
+    image: mustahid/nginx
+    build: .
     restart: unless-stopped
     ports:
       - 1000:1000
@@ -12,14 +13,16 @@ services:
       - status-service
       - story-service
 
-  frontend:
-      container_name: frontend
-      build: ./Frontend
-      restart: unless-stopped
-      ports:
-           - 4200:4200
-      depends_on:
-          - nginx
+
+  # frontend:
+  #     container_name: frontend
+  #     build: ./Frontend
+  #     restart: unless-stopped
+  #     ports:
+  #          - 4200:4200
+     
+  #     depends_on:
+  #         - nginx
 
   db-account:
     image: mongo:4.0-xenial
@@ -86,16 +89,18 @@ services:
   #     "
  
   account-service:
+    image: mustahid/account-service
     build: ./userMS
     restart: unless-stopped
-    # ports:
-    #   - 3000:3000
+    ports:
+      - 3000:3000
     depends_on:
       - db-account
     environment:
       DB_URL: mongodb://db-account:27017/account-service
 
   status-service:
+    image: mustahid/status-service
     build: ./statusMS
     restart: unless-stopped
     # ports:
@@ -106,6 +111,7 @@ services:
     environment:
       DB_URL: mongodb://db-status:27017/status-service
   story-service:
+    image: mustahid/story-service
     build: ./storyMS
     restart: unless-stopped
     # ports:

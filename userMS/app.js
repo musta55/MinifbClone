@@ -8,28 +8,31 @@ const cors = require("cors");
 const passport = require("passport");
 var path = require("path");
 const rtsIndex = require("./routes/index.router");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // const dbconnect = require("./models/db.js");
 
 var app = express();
 
 // middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+	cors({
+		origin: "*",
+	})
+);
 app.use(passport.initialize());
 app.use("/api", rtsIndex);
 
 // dbconnect();
-	mongoose.connect("mongodb://db-account:27017/account-service", (err) => {
-		if (!err) {
-			console.log("MongoDB connection succeeded.");
-		} else {
-			console.log(
-				"Error in MongoDB connection : " +
-					JSON.stringify(err, undefined, 2)
-			);
-		}
-	});
+mongoose.connect("mongodb://db-account:27017/account-service", (err) => {
+	if (!err) {
+		console.log("MongoDB connection succeeded.");
+	} else {
+		console.log(
+			"Error in MongoDB connection : " + JSON.stringify(err, undefined, 2)
+		);
+	}
+});
 
 //Static files_section
 app.use(express.static(path.join(__dirname, "public")));

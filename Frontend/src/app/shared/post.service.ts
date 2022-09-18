@@ -20,18 +20,18 @@ export class PostService {
   endPointStory = 'http://localhost:1000/story';
   allStatus: any;
 
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-  });
+  // headers = new HttpHeaders({
+  //   'Content-Type': 'application/json',
+  //   'Access-Control-Allow-Origin': '*',
+  //   'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+  //   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+  // });
 
-  storyHeader = new HttpHeaders({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-  });
+  // storyHeader = new HttpHeaders({
+  //   'Access-Control-Allow-Origin': '*',
+  //   'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+  //   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+  // });
 
 
   constructor(private httpClient: HttpClient) { }
@@ -56,6 +56,7 @@ export class PostService {
   }
 
   addPost(post: any): Observable<Post> {
+    console.log("hoy kina");
     return this.httpClient.post<Post>(this.endPointPost + '', JSON.stringify(post), this.httpHeader)
       .pipe(
         retry(1),
@@ -65,14 +66,18 @@ export class PostService {
 
 
   postStory(story: any): Observable<any> {
-    return this.httpClient.post(this.endPointStory + '', story, { headers: this.storyHeader });
+    return this.httpClient.post(this.endPointStory + '', story, {});
+    // return this.httpClient.post(this.endPointStory + '', story, { headers: this.storyHeader });
   }
 
 
 
   getStories() {
-    return this.httpClient.get<story>(this.endPointStory + '', { headers: this.headers, observe: "response" });
+
+    return this.httpClient.get<story>(this.endPointStory, {observe: "response"} );
   }
+   // return this.httpClient.get<story>(this.endPointStory + '', { headers: this.headers, observe: "response" });
+  
 
   httpError(error: { error: { message: string; }; status: any; message: any; }) {
     let msg = '';
